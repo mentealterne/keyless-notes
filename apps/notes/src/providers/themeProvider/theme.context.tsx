@@ -8,15 +8,15 @@ import React, {
   useState,
 } from "react";
 
-export enum ListState {
+export enum ListVisibility {
   COLLAPSED = "COLLAPSED",
   EXPANDED = "EXPANDED",
   FLOATING = "FLOATING",
 }
 
 export interface ThemeContextType {
-  listState: ListState;
-  updateListState: (listState: ListState) => void;
+  listVisibility: ListVisibility;
+  updateListVisibility: (listVisibility: ListVisibility) => void;
   isMobile?: boolean;
   startHideFloatingList: () => void;
   cancelHideFloatingList: () => void;
@@ -31,7 +31,9 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [listState, setListState] = useState<ListState>(ListState.EXPANDED);
+  const [listVisibility, setListVisibility] = useState<ListVisibility>(
+    ListVisibility.EXPANDED,
+  );
   const [isMobile, setIsMobile] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -45,19 +47,19 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const updateListState = (state: ListState) => {
+  const updateListVisibility = (state: ListVisibility) => {
     console.log("Updating list state to:", state);
-    setListState(state);
+    setListVisibility(state);
   };
 
   const startHideFloatingList = () => {
     if (!hideTimeoutRef.current) {
       hideTimeoutRef.current = setTimeout(() => {
-        if (listState === ListState.FLOATING) {
-          setListState(ListState.COLLAPSED);
+        if (listVisibility === ListVisibility.FLOATING) {
+          setListVisibility(ListVisibility.COLLAPSED);
         }
         hideTimeoutRef.current = null;
-      }, 1000);
+      }, 200);
     }
   };
 
@@ -71,8 +73,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   return (
     <ThemeContext.Provider
       value={{
-        listState,
-        updateListState,
+        listVisibility,
+        updateListVisibility,
         isMobile,
         startHideFloatingList,
         cancelHideFloatingList,

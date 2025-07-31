@@ -2,7 +2,7 @@ import { FC } from "react";
 import { CaretDoubleLeft, CaretDoubleRight, List } from "@phosphor-icons/react";
 import { useTheme } from "@/providers/themeProvider/useTheme";
 import clsx from "clsx";
-import { ListState } from "@/providers/themeProvider/theme.context";
+import { ListVisibility } from "@/providers/themeProvider/theme.context";
 import Tooltip from "@/components/common/Tooltip";
 
 interface Props {
@@ -17,24 +17,24 @@ const ToggleListButton: FC<Props> = ({
   onMouseLeave,
   isHoverable,
 }) => {
-  const { listState, updateListState } = useTheme();
+  const { listVisibility, updateListVisibility } = useTheme();
   return (
     <div
       onPointerEnter={onMouseEnter}
       onPointerLeave={onMouseLeave}
       className={"cursor-pointer"}
       onClick={() =>
-        updateListState(
-          listState === ListState.EXPANDED
-            ? ListState.COLLAPSED
-            : ListState.EXPANDED,
+        updateListVisibility(
+          listVisibility === ListVisibility.EXPANDED
+            ? ListVisibility.COLLAPSED
+            : ListVisibility.EXPANDED,
         )
       }
     >
-      {listState === ListState.COLLAPSED && isHoverable && (
+      {listVisibility === ListVisibility.COLLAPSED && isHoverable && (
         <List size={20} className={clsx(`text-${color ?? "accent"}`)} />
       )}
-      {listState === ListState.FLOATING && isHoverable && (
+      {listVisibility === ListVisibility.FLOATING && isHoverable && (
         <Tooltip label={"Click to expand list"}>
           <CaretDoubleRight
             size={20}
@@ -43,14 +43,14 @@ const ToggleListButton: FC<Props> = ({
         </Tooltip>
       )}
 
-      {!isHoverable && listState !== ListState.EXPANDED && (
+      {!isHoverable && listVisibility !== ListVisibility.EXPANDED && (
         <CaretDoubleRight
           size={20}
           className={clsx(`text-${color ?? "accent"}`)}
         />
       )}
 
-      {!isHoverable && listState === ListState.EXPANDED && (
+      {!isHoverable && listVisibility === ListVisibility.EXPANDED && (
         <CaretDoubleLeft
           size={20}
           className={clsx(`text-${color ?? "accent"}`)}

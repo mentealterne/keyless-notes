@@ -2,15 +2,15 @@ import { FC } from "react";
 import { Note } from "@/types/notes";
 import { useTheme } from "@/providers/themeProvider/useTheme";
 import ToggleListButton from "@/components/common/ToggleListButton";
-import { ListState } from "@/providers/themeProvider/theme.context";
+import { ListVisibility } from "@/providers/themeProvider/theme.context";
 
 interface Props {
   note: Note | undefined;
 }
 const NoteEditorHeader: FC<Props> = (props) => {
   const {
-    listState,
-    updateListState,
+    listVisibility,
+    updateListVisibility,
     cancelHideFloatingList,
     startHideFloatingList,
   } = useTheme();
@@ -21,12 +21,12 @@ const NoteEditorHeader: FC<Props> = (props) => {
         "w-full h-12 px-4 border-b flex gap-4 items-center border-accent bg-accent text-white"
       }
     >
-      {listState !== ListState.EXPANDED && (
+      {listVisibility !== ListVisibility.EXPANDED && (
         <ToggleListButton
           isHoverable={true}
           onMouseEnter={() => {
             cancelHideFloatingList();
-            updateListState(ListState.FLOATING);
+            updateListVisibility(ListVisibility.FLOATING);
           }}
           onMouseLeave={startHideFloatingList}
           color={"white"}

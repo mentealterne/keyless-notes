@@ -4,11 +4,11 @@ import { FC } from "react";
 import { Laptop } from "@phosphor-icons/react";
 import { useTheme } from "@/providers/themeProvider/useTheme";
 import ToggleListButton from "@/components/common/ToggleListButton";
-import { ListState } from "@/providers/themeProvider/theme.context";
+import { ListVisibility } from "@/providers/themeProvider/theme.context";
 
 const NotesListHeader: FC = () => {
-  const { listState, updateListState, isMobile } = useTheme();
-  if (isMobile && listState) {
+  const { listVisibility, updateListVisibility, isMobile } = useTheme();
+  if (isMobile && listVisibility) {
     return <ToggleListButton />;
   }
 
@@ -24,14 +24,14 @@ const NotesListHeader: FC = () => {
       <button
         className={"cursor-pointer"}
         onClick={() =>
-          updateListState(
-            listState === ListState.COLLAPSED
-              ? ListState.EXPANDED
-              : ListState.COLLAPSED,
+          updateListVisibility(
+            listVisibility === ListVisibility.COLLAPSED
+              ? ListVisibility.EXPANDED
+              : ListVisibility.COLLAPSED,
           )
         }
       >
-        {listState !== ListState.FLOATING && <ToggleListButton />}
+        {listVisibility !== ListVisibility.FLOATING && <ToggleListButton />}
       </button>
     </div>
   );

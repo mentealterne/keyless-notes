@@ -7,21 +7,21 @@ import { useTheme } from "@/providers/themeProvider/useTheme";
 import clsx from "clsx";
 import { useStore } from "@nanostores/react";
 import { $selectedNote } from "@/store/notes";
-import { ListState } from "@/providers/themeProvider/theme.context";
+import { ListVisibility } from "@/providers/themeProvider/theme.context";
 
 interface Props {
   notes: Note[];
 }
 const NotesList: FC<Props> = ({ notes }) => {
   const selectedNote = useStore($selectedNote);
-  const { listState, isMobile } = useTheme();
+  const { listVisibility, isMobile } = useTheme();
   return (
     <div className={"flex flex-col gap-6 w-full"}>
       <NotesListHeader />
       <div
         className={clsx(
           "flex flex-col gap-4",
-          isMobile && listState ? "hidden" : "block",
+          isMobile && listVisibility ? "hidden" : "block",
         )}
       >
         {notes.map((note, index) => {
@@ -33,7 +33,7 @@ const NotesList: FC<Props> = ({ notes }) => {
               key={note.id}
               id={note.id}
               isSelected={isSelected}
-              isCollapsed={listState === ListState.COLLAPSED}
+              isCollapsed={listVisibility === ListVisibility.COLLAPSED}
               heading={noteToRender.heading}
               text={noteToRender.text}
               lastUpdated={noteToRender.lastUpdated}
