@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+import withLitSSR from '@lit-labs/nextjs'
 
 const nextConfig: NextConfig = {
   /* config options here */
 };
 
-export default nextConfig;
+module.exports = withLitSSR()(nextConfig);

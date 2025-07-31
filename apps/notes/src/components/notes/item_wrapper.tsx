@@ -5,7 +5,9 @@ import type { FC } from 'react'
 
 const NoteItemReact = dynamic(
   () => import('./item').then(m => m.NoteItemReact),
-  { ssr: false }
+  { ssr: false,loading: () => (
+      <div className="h-32 w-full rounded opacity-50 bg-gray-200 animate-pulse" />
+    ) }
 );
 
 type NoteItemWrapperProps = {

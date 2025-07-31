@@ -5,14 +5,7 @@ import { format } from 'date-fns'
 @customElement('note-item')
 export class NoteItem extends LitElement {
   static override styles = css`
-      :root {
-          --primary: #EBF2FA;
-          --secondary: #5C5552;
-          --accent: #05668D;
-          --accent-dark: #bed6f8;
-          --font-raleway-sans: "Raleway", sans-serif;
-          --font-noto-serif: "Noto Serif", serif;
-      }
+
       :host {
           display: block;
           cursor: pointer;

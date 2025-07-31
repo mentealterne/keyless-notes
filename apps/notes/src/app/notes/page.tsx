@@ -58,7 +58,7 @@ export default function Home() {
 
 
   return (
-    <div className="flex min-h-full ">
+    <div className="flex h-full w-full ">
       <div className="flex flex-col p-4 gap-4  w-1/6 scrollbar-hide bg-accent-dark h-full overflow-auto">
 
         <NotesList notes={mockNotes} />

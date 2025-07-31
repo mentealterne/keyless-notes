@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${notoSerif.variable} ${raleway.variable} antialiased`}>
-        <div className="font-sans flex  min-h-screen   gap-16 ">
+        <div className="font-sans flex  w-screen min-h-screen   gap-16 ">
           <Providers>{children}</Providers>
         </div>
       </body>

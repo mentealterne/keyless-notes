@@ -4,7 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "notes:dev-tools": "concurrently -n NOTES,WEBCOMPONENTS -c blue,magenta \"pnpm --filter apps/notes dev\" \"pnpm --filter @keyless/web-components dev\"",
+    "notes:dev-tools": "concurrently -n NOTES,WEBCOMPONENTS -c blue,magenta \"pnpm --filter notes dev\" \"pnpm --filter @keyless/web-components dev\"",
 
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
