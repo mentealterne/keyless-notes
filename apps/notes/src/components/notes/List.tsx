@@ -7,6 +7,7 @@ import { useTheme } from "@/providers/themeProvider/useTheme";
 import clsx from "clsx";
 import { useStore } from "@nanostores/react";
 import { $selectedNote } from "@/store/notes";
+import { ListState } from "@/providers/themeProvider/theme.context";
 
 interface Props {
   notes: Note[];
@@ -23,17 +24,22 @@ const NotesList: FC<Props> = ({ notes }) => {
           isMobile && listState ? "hidden" : "block",
         )}
       >
-        {notes.map((note, index) => (
-          <NoteItemWrapper
-            id={note.id}
-            isSelected={selectedNote?.id === note.id}
-            isCollapsed={listState}
-            key={index}
-            heading={note.heading}
-            text={note.text}
-            lastUpdated={note.lastUpdated}
-          />
-        ))}
+        {notes.map((note, index) => {
+          const isSelected = selectedNote?.id === note.id;
+          const noteToRender = isSelected ? { ...note, ...selectedNote } : note;
+
+          return (
+            <NoteItemWrapper
+              key={note.id}
+              id={note.id}
+              isSelected={isSelected}
+              isCollapsed={listState === ListState.COLLAPSED}
+              heading={noteToRender.heading}
+              text={noteToRender.text}
+              lastUpdated={noteToRender.lastUpdated}
+            />
+          );
+        })}
       </div>
     </div>
   );

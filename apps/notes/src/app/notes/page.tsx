@@ -1,7 +1,7 @@
 "use client";
 import { Note } from "@/types/notes";
 import NoteEditor from "@/components/notes/NoteEditor";
-import { $selectedNote } from "@/store/notes";
+import { $selectedNote, updateSelectedNote } from "@/store/notes";
 import { useStore } from "@nanostores/react";
 import NoteEditorHeader from "@/components/notes/NoteEditorHeader";
 import NotesListWrapper from "@/components/notes/NotesListWrapper";
@@ -71,6 +71,11 @@ export default function Home() {
     },
   ];
 
+  const updateSelectedNoteTrigger = (note: Note) => {
+    if (!selectedNote) return;
+    updateSelectedNote(note);
+  };
+
   return (
     <div className="flex h-screen w-full">
       <NotesListWrapper notes={mockNotes} />
@@ -78,7 +83,18 @@ export default function Home() {
         <div className={"flex flex-col mx-auto w-full  h-full"}>
           <NoteEditorHeader note={selectedNote} />
           <div className={"w-1/2 mx-auto mt-20 p-8"}>
-            <NoteEditor note={selectedNote} />
+            <NoteEditor
+              note={selectedNote}
+              onHeadingChange={(heading) =>
+                updateSelectedNoteTrigger({
+                  ...selectedNote!,
+                  heading: heading,
+                })
+              }
+              onTextChange={(text) =>
+                updateSelectedNoteTrigger({ ...selectedNote!, text: text })
+              }
+            />
           </div>
         </div>
       </div>
