@@ -2,11 +2,11 @@
 
 import dynamic from "next/dynamic";
 import type { FC } from "react";
-import { addNote } from "@/store/notes";
+import { updateSelectedNote } from "@/store/notes";
 import { Note } from "@/types/notes";
 
 const NoteItemReact = dynamic(
-  () => import("./item").then((m) => m.NoteItemReact),
+  () => import("./Item").then((m) => m.NoteItemReact),
   {
     ssr: false,
     loading: () => (
@@ -19,6 +19,7 @@ type NoteItemWrapperProps = {
   id: string | undefined;
   heading: string;
   text: string;
+  isSelected: boolean;
   lastUpdated: string;
   isCollapsed: boolean;
 };
@@ -26,7 +27,9 @@ type NoteItemWrapperProps = {
 const NoteItemWrapper: FC<NoteItemWrapperProps> = (props) => {
   return (
     <NoteItemReact
-      onNoteSelected={(e) => addNote((e as CustomEvent<Note>).detail)}
+      onNoteSelected={(e) =>
+        updateSelectedNote((e as CustomEvent<Note>).detail)
+      }
       noteID={props.id}
       {...props}
     />

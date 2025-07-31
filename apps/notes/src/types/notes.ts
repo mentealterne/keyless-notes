@@ -1,6 +1,6 @@
 export type Note = {
   id: string | undefined;
-  title: string;
+  heading: string;
   text: string;
   lastUpdated: string;
 };

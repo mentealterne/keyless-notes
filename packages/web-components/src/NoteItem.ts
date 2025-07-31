@@ -19,7 +19,7 @@ export class NoteItem extends LitElement {
       flex-direction: column;
       gap: 0.5rem;
       position: relative;
-      padding-bottom: 1rem;
+      padding: 0.5rem 1rem;
       border-radius: 0.375rem;
       overflow: hidden;
       transition: box-shadow 0.2s ease-in-out;
@@ -33,6 +33,11 @@ export class NoteItem extends LitElement {
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease-in-out;
+    }
+
+    .container:hover .hover-overlay,
+    .hover-overlay.show {
+      opacity: 1;
     }
 
     .container:hover .hover-overlay {
@@ -74,6 +79,7 @@ export class NoteItem extends LitElement {
   @property({ type: String }) text = "write something here...";
   @property({ type: String }) lastUpdated = "";
   @property({ type: Boolean }) isCollapsed = false;
+  @property({ type: Boolean }) isSelected = false;
 
   @state() private formattedDate = "";
 
@@ -101,7 +107,9 @@ export class NoteItem extends LitElement {
   override render() {
     return html`
       <div class="container" @click=${this.handleClick}>
-        <div class="hover-overlay"></div>
+        <div
+          class=${this.isSelected ? "hover-overlay show" : "hover-overlay"}
+        ></div>
         <h2 class="title">${this.heading}</h2>
         ${this.isCollapsed ? nothing : html`<p class="text">${this.text}</p>`}
         <p class="date">${this.formattedDate}</p>
