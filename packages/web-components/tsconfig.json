@@ -1,0 +1,3 @@
+{
+  "extends": "@keyless/typescript-config/web-components.json"
+}
