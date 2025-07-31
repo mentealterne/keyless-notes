@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Noto_Serif, Raleway } from 'next/font/google'
 import '../globals.css'
-import { Providers } from '@/components/Providers'
+import { Providers } from '@/providers/Providers'
 
 const raleway = Raleway({
   variable: "--font-raleway-sans",

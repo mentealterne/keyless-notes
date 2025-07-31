@@ -1,17 +1,17 @@
-import { defineConfig } from 'vite'
-import { resolve } from 'path'
+import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/NoteItem.ts'),
-      formats: ['es'],
-      fileName: () => 'src/NoteItem.js',
+      entry: resolve(__dirname, "src/NoteItem.ts"),
+      formats: ["es"],
+      fileName: () => "src/NoteItem.js",
     },
-    outDir: 'dist',
+    outDir: "dist",
     rollupOptions: {
-      external: ['lit', 'date-fns'],
+      external: ["lit", "date-fns"],
     },
     emptyOutDir: true,
-  }
+  },
 });

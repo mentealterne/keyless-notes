@@ -15,7 +15,9 @@
     "@phosphor-icons/react": "^2.1.10",
     "@tanstack/react-query": "^5.83.0",
     "add": "^2.0.6",
+    "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "nanostores": "^1.0.1",
     "next": "15.4.5",
     "react": "19.1.0",
     "react-dom": "19.1.0"

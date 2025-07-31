@@ -1,5 +1,6 @@
 export type Note = {
-  title:string;
-  text:string;
+  id: string | undefined;
+  title: string;
+  text: string;
   lastUpdated: string;
-}
+};
