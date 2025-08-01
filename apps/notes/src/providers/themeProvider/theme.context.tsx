@@ -48,7 +48,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }, []);
 
   const updateListVisibility = (state: ListVisibility) => {
-    console.log("Updating list state to:", state);
     setListVisibility(state);
   };
 

@@ -1,7 +1,7 @@
 export type Note = {
   id: string | undefined;
-  heading: string;
-  text: string;
+  heading: string | null;
+  text: string | null;
   lastUpdated: Date;
   createdAt?: Date;
 };

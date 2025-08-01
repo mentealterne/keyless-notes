@@ -22,13 +22,6 @@ export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
 
-    if (!data.heading || !data.text) {
-      return NextResponse.json(
-        { error: "Missing heading or text" },
-        { status: 400 },
-      );
-    }
-
     const repo = new NoteRepo();
     const note = await repo.create({ heading: data.heading, text: data.text });
 

@@ -1,46 +1,69 @@
-import { FC, useEffect, useState } from "react";
+"use client";
+import { FC, useEffect, useMemo, useState } from "react";
+import { debounce } from "@tanstack/react-pacer/debouncer"; // :contentReference[oaicite:0]{index=0}
 import NoteEditorHeader from "@/components/notes/NoteEditorHeader";
 import NoteEditor from "@/components/notes/NoteEditor";
 import { Note } from "@/types/notes";
 import NoteEditorFooter from "@/components/notes/NoteEditorFooter";
-import { useAutosave } from "@/lib/useAutosave.hook";
+import { clearShowingNote, setSelectedNoteID } from "@/store/notes";
+import { useUpsertNote } from "@/lib/http/mutations/useUpsertNote";
 
 interface Props {
   note: Note | undefined;
 }
-const NoteEditorWrapper: FC<Props> = (props) => {
-  const { isSaving, updatedNote, updateNote } = useAutosave(props.note);
-  const [editingNote, setEditingNote] = useState<Note | undefined>(props.note);
-  console.log("Editing note:", editingNote);
+
+const NoteEditorWrapper: FC<Props> = ({ note: propsNote }) => {
+  const [editingNote, setEditingNote] = useState<Note | undefined>(propsNote);
+  const onSaveSuccess = (note: Note) => {
+    clearShowingNote();
+  };
+
+  const {
+    mutate: upsertNote,
+    isPending,
+    data: result,
+  } = useUpsertNote(onSaveSuccess);
+
+  const debouncedUpsert = useMemo(
+    () => debounce(upsertNote, { wait: 2000 }),
+    [upsertNote],
+  );
+
   useEffect(() => {
-    setEditingNote(props.note);
-  }, [props.note]);
+    if (result?.data?.id) {
+      setSelectedNoteID(result.data.id);
+    }
+  }, [result?.data?.id]);
+
+  useEffect(() => {
+    setEditingNote(propsNote);
+  }, [propsNote]);
+
   const onHeadingChange = (heading: string) => {
     if (!editingNote) return;
-    setEditingNote({ ...editingNote, heading: heading });
-    updateNote({ ...editingNote, heading: heading });
+    const updated = { ...editingNote, heading };
+    setEditingNote(updated);
+    debouncedUpsert(updated);
   };
 
   const onTextChange = (text: string) => {
     if (!editingNote) return;
-    setEditingNote({ ...editingNote, text: text });
-    updateNote({ ...editingNote, text: text });
+    const updated = { ...editingNote, text };
+    setEditingNote(updated);
+    debouncedUpsert(updated);
   };
+
   return (
-    <div className={"flex flex-col mx-auto w-full justify-between  h-full"}>
-      <NoteEditorHeader note={props.note} />
-      <div
-        className={
-          "xs:w-full md:w-1/2 mx-auto md:mt-20 p-8 h-[calc(100vh-60px-48px)] overflow-auto"
-        }
-      >
+    <div className="flex flex-col mx-auto w-full justify-between h-full">
+      <NoteEditorHeader note={propsNote} />
+      <div className="xs:w-full md:w-1/2 mx-auto md:mt-20 p-8 h-[calc(100vh-60px-48px)] overflow-auto">
         <NoteEditor
           note={editingNote}
           onHeadingChange={onHeadingChange}
           onTextChange={onTextChange}
         />
       </div>
-      <NoteEditorFooter />
+      <NoteEditorFooter isPending={isPending} />
     </div>
   );
 };

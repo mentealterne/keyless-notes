@@ -1,15 +1,15 @@
 import { FC } from "react";
 import NoteStatusIndicators from "@/components/notes/actions/NoteStatusIndicators";
-import { useStore } from "@nanostores/react";
-import { $selectedNoteID } from "@/store/notes";
-import { useNote } from "@/lib/http/queries/useNote.query";
+import { useNoteToEdit } from "@/lib/useNoteToEdit.hook";
 
-const NoteEditorFooter: FC = () => {
-  const selectedNoteID = useStore($selectedNoteID);
-  const { data: note } = useNote(selectedNoteID);
+interface Props {
+  isPending?: boolean;
+}
+const NoteEditorFooter: FC<Props> = (props) => {
+  const note = useNoteToEdit();
   return (
     <div className="flex justify-end items-center p-4 max-h-[30px] overflow-hidden bg-gray-100 border-t border-accent">
-      <NoteStatusIndicators note={note?.data || undefined} />
+      <NoteStatusIndicators note={note} isPending={props.isPending} />
     </div>
   );
 };

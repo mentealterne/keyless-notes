@@ -2,12 +2,20 @@ import { FC } from "react";
 import IconButton from "@/components/common/IconButton";
 import { PenNib } from "@phosphor-icons/react";
 import { useStore } from "@nanostores/react";
-import { $newNote, addNewNote } from "@/store/notes";
+import { $showingNote, addShowingNote } from "@/store/notes";
 
 const NoteAddButton: FC = () => {
-  const newNote = useStore($newNote);
+  const newNote = useStore($showingNote);
+  const addNote = () => {
+    addShowingNote({
+      id: undefined,
+      heading: "",
+      text: "",
+      lastUpdated: new Date(),
+    });
+  };
   return (
-    <IconButton disabled={!!newNote} onClick={addNewNote}>
+    <IconButton disabled={!!newNote && !newNote.id} onClick={addNote}>
       <PenNib size={24} weight="duotone" className="text-white" />
     </IconButton>
   );
