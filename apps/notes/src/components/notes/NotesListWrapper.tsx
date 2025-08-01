@@ -21,7 +21,7 @@ const NotesListWrapper: FC<Props> = ({ notes }) => {
       if (listVisibility === ListVisibility.COLLAPSED) {
         return "opacity-0 w-0 pointer-events-none";
       }
-      return "w-1/2 opacity-100 pointer-events-auto";
+      return "w-1/2 opacity-100 fixed left-0 top-0 h-full pointer-events-auto";
     }
 
     if (listVisibility === ListVisibility.COLLAPSED) {

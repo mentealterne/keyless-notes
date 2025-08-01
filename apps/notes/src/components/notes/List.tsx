@@ -21,7 +21,9 @@ const NotesList: FC<Props> = ({ notes }) => {
       <div
         className={clsx(
           "flex flex-col gap-4",
-          isMobile && listVisibility ? "hidden" : "block",
+          isMobile && listVisibility === ListVisibility.COLLAPSED
+            ? "hidden"
+            : "block",
         )}
       >
         {notes.map((note, index) => {

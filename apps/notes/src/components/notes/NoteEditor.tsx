@@ -9,7 +9,7 @@ interface Props {
 const NoteEditor: FC<Props> = (props) => {
   if (!props.note)
     return (
-      <div className={"flex flex-col  w-full h-full"}>
+      <div className={"flex flex-col    w-full h-full"}>
         <h2 className={"text-xl"}>Please select a note to start.</h2>
       </div>
     );
@@ -24,7 +24,6 @@ const NoteEditor: FC<Props> = (props) => {
           "w-full text-accent font-bold text-4xl no-underline focus:outline-none"
         }
         value={props.note.heading}
-        defaultValue={props.note.heading}
       />
 
       <textarea
@@ -34,7 +33,6 @@ const NoteEditor: FC<Props> = (props) => {
           "w-full h-full leading-relaxed text-xl no-underline focus:outline-none"
         }
         value={props.note.text}
-        defaultValue={props.note.text}
       />
     </div>
   );

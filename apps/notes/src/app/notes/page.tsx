@@ -1,14 +1,15 @@
 "use client";
 import { Note } from "@/types/notes";
-import { $selectedNote } from "@/store/notes";
+import { $selectedNote, updateSelectedNote } from "@/store/notes";
 import { useStore } from "@nanostores/react";
 import NotesListWrapper from "@/components/notes/NotesListWrapper";
 import NoteEditorWrapper from "@/components/notes/NoteEditorWrapper";
+import { useCallback, useEffect } from "react";
 
 export default function Home() {
   const selectedNote = useStore($selectedNote);
 
-  const mockNotes: Note[] = [
+  const notes: Note[] = [
     {
       id: "1",
       heading: "Grocery List",
@@ -71,9 +72,19 @@ export default function Home() {
     },
   ];
 
+  const initSelectedNote = useCallback(() => {
+    if (notes.length > 0 && !selectedNote) {
+      updateSelectedNote(notes[0]!);
+    }
+  }, [notes]);
+
+  useEffect(() => {
+    initSelectedNote();
+  }, []);
+
   return (
     <div className="flex h-screen w-full">
-      <NotesListWrapper notes={mockNotes} />
+      <NotesListWrapper notes={notes} />
       <div className="flex flex-col  gap-4 flex-grow">
         <NoteEditorWrapper note={selectedNote} />
       </div>

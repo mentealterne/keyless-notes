@@ -13,6 +13,7 @@ const NoteEditorHeader: FC<Props> = (props) => {
     updateListVisibility,
     cancelHideFloatingList,
     startHideFloatingList,
+    isMobile,
   } = useTheme();
 
   return (
@@ -23,7 +24,7 @@ const NoteEditorHeader: FC<Props> = (props) => {
     >
       {listVisibility !== ListVisibility.EXPANDED && (
         <ToggleListButton
-          isHoverable={true}
+          isHoverable={!isMobile}
           onMouseEnter={() => {
             cancelHideFloatingList();
             updateListVisibility(ListVisibility.FLOATING);

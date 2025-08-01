@@ -19,7 +19,7 @@ const ToggleListButton: FC<Props> = ({
 }) => {
   const { listVisibility, updateListVisibility } = useTheme();
   return (
-    <div
+    <button
       onPointerEnter={onMouseEnter}
       onPointerLeave={onMouseLeave}
       className={"cursor-pointer"}
@@ -56,7 +56,7 @@ const ToggleListButton: FC<Props> = ({
           className={clsx(`text-${color ?? "accent"}`)}
         />
       )}
-    </div>
+    </button>
   );
 };
 
