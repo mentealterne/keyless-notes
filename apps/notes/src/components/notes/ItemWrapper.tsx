@@ -20,7 +20,7 @@ type NoteItemWrapperProps = {
   heading: string;
   text: string;
   isSelected: boolean;
-  lastUpdated: string;
+  lastUpdated: Date;
   isCollapsed: boolean;
 };
 

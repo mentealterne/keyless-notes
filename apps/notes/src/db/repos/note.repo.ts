@@ -1,16 +1,17 @@
 import { prisma } from "@/lib/prisma-client";
-import { Prisma } from "@prisma/client";
+import { Note, Prisma } from "@prisma/client";
+import { NotesListResponse } from "@/lib/http/notes";
 
 // In a prod scenario I'd also separate repo interface and implementation
 export class NoteRepo {
-  async getByID(id: string) {
+  async getByID(id: string): Promise<Note | null> {
     return prisma.note.findUnique({
       where: { id },
     });
   }
 
-  async list(page = 1, pageSize = 10) {
-    const [data, total] = await Promise.all([
+  async list(page = 1, pageSize = 10): Promise<NotesListResponse> {
+    const [notes, total] = await Promise.all([
       prisma.note.findMany({
         skip: (page - 1) * pageSize,
         take: pageSize,
@@ -20,7 +21,7 @@ export class NoteRepo {
     ]);
 
     return {
-      data,
+      notes,
       total,
       page,
       pageSize,

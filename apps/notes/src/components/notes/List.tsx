@@ -10,7 +10,7 @@ import { $selectedNote } from "@/store/notes";
 import { ListVisibility } from "@/providers/themeProvider/theme.context";
 
 interface Props {
-  notes: Note[];
+  notes: Note[] | undefined;
 }
 const NotesList: FC<Props> = ({ notes }) => {
   const selectedNote = useStore($selectedNote);
@@ -26,22 +26,30 @@ const NotesList: FC<Props> = ({ notes }) => {
             : "block",
         )}
       >
-        {notes.map((note, index) => {
-          const isSelected = selectedNote?.id === note.id;
-          const noteToRender = isSelected ? { ...note, ...selectedNote } : note;
+        {notes?.length ? (
+          notes.map((note, index) => {
+            const isSelected = selectedNote?.id === note.id;
+            const noteToRender = isSelected
+              ? { ...note, ...selectedNote }
+              : note;
 
-          return (
-            <NoteItemWrapper
-              key={note.id}
-              id={note.id}
-              isSelected={isSelected}
-              isCollapsed={listVisibility === ListVisibility.COLLAPSED}
-              heading={noteToRender.heading}
-              text={noteToRender.text}
-              lastUpdated={noteToRender.lastUpdated}
-            />
-          );
-        })}
+            return (
+              <NoteItemWrapper
+                key={note.id}
+                id={note.id}
+                isSelected={isSelected}
+                isCollapsed={listVisibility === ListVisibility.COLLAPSED}
+                heading={noteToRender.heading}
+                text={noteToRender.text}
+                lastUpdated={noteToRender.lastUpdated}
+              />
+            );
+          })
+        ) : (
+          <div className="text-gray-500 text-left">
+            No notes available. Please create a new note.
+          </div>
+        )}
       </div>
     </div>
   );

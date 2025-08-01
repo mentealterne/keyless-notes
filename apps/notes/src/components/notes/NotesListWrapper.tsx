@@ -6,7 +6,7 @@ import { ListVisibility } from "@/providers/themeProvider/theme.context";
 import { useTheme } from "@/providers/themeProvider/useTheme";
 
 interface Props {
-  notes: Note[];
+  notes: Note[] | undefined;
 }
 const NotesListWrapper: FC<Props> = ({ notes }) => {
   const {

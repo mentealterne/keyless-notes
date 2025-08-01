@@ -1,15 +1,20 @@
 "use client";
-import { Note } from "@/types/notes";
 import { $selectedNote, updateSelectedNote } from "@/store/notes";
 import { useStore } from "@nanostores/react";
 import NotesListWrapper from "@/components/notes/NotesListWrapper";
 import NoteEditorWrapper from "@/components/notes/NoteEditorWrapper";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useNoteList } from "@/lib/http/queries/useNoteList.query";
 
 export default function Home() {
   const selectedNote = useStore($selectedNote);
+  const { data: notesResponse, isLoading } = useNoteList(1);
 
-  const notes: Note[] = [
+  const notes = useMemo(() => {
+    return notesResponse?.notes || [];
+  }, [notesResponse?.notes]);
+
+  /*  const notes: Note[] = [
     {
       id: "1",
       heading: "Grocery List",
@@ -70,7 +75,7 @@ export default function Home() {
       text: "Felt productive today, finally deployed the MVP. Fixed the authentication bug and polished the dashboard. Looking forward to gathering feedback and iterating based on user behavior.",
       lastUpdated: "2025-07-19T21:05:00Z",
     },
-  ];
+  ];*/
 
   const initSelectedNote = useCallback(() => {
     if (notes.length > 0 && !selectedNote) {
@@ -84,7 +89,7 @@ export default function Home() {
 
   return (
     <div className="flex h-screen w-full">
-      <NotesListWrapper notes={notes} />
+      <NotesListWrapper notes={notesResponse?.notes} />
       <div className="flex flex-col  gap-4 flex-grow">
         <NoteEditorWrapper note={selectedNote} />
       </div>
