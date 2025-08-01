@@ -75,8 +75,8 @@ export class NoteItem extends LitElement {
   `;
 
   @property({ type: String }) noteID = "";
-  @property({ type: String }) heading = "New note";
-  @property({ type: String }) text = "write something here...";
+  @property({ type: String }) heading = "";
+  @property({ type: String }) text = "";
   @property({ type: Date }) lastUpdated = new Date();
   @property({ type: Boolean }) isCollapsed = false;
   @property({ type: Boolean }) isSelected = false;
@@ -95,6 +95,23 @@ export class NoteItem extends LitElement {
     if (changedProps.has("isCollapsed")) {
       this.formattedDate = format(
         new Date(this.lastUpdated),
+        !this.isCollapsed ? "d LLL yyyy HH:mm" : "d LLL yyyy",
+      );
+    }
+  }
+
+  override willUpdate(changedProps: Map<string, unknown>) {
+    if (changedProps.has("heading") && this.heading.trim() === "") {
+      this.heading = "New note";
+    }
+    if (changedProps.has("text") && this.text.trim() === "") {
+      this.text = "No text provided";
+    }
+
+    if (changedProps.has("lastUpdated") || changedProps.has("isCollapsed")) {
+      const parsedDate = new Date(this.lastUpdated);
+      this.formattedDate = format(
+        parsedDate,
         !this.isCollapsed ? "d LLL yyyy HH:mm" : "d LLL yyyy",
       );
     }

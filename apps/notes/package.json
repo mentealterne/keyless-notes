@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-      "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
-      "prisma:migrate": "prisma migrate dev --schema=./prisma/schema.prisma"
+    "prisma:generate": "prisma generate --schema=./prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema=./prisma/schema.prisma"
   },
   "dependencies": {
     "@keyless/web-components": "workspace:^",
@@ -22,6 +22,7 @@
     "add": "^2.0.6",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "lodash": "^4.17.21",
     "nanostores": "^1.0.1",
     "next": "15.4.5",
     "prisma": "^6.13.0",
@@ -33,6 +34,7 @@
     "@keyless/eslint-config": "workspace:*",
     "@keyless/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

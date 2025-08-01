@@ -1,8 +1,22 @@
 import { atom } from "nanostores";
 import { Note } from "@/types/notes";
 
-export const $selectedNote = atom<Note | undefined>();
+export const $newNote = atom<Note | undefined>();
+export const $selectedNoteID = atom<string | undefined>();
+export function addNewNote() {
+  const newNote = {
+    id: undefined,
+    heading: "",
+    text: "",
+    lastUpdated: new Date(),
+  };
+  $newNote.set(newNote);
+}
 
-export function updateSelectedNote(note: Note) {
-  $selectedNote.set(note);
+export function setSelectedNoteID(noteID: string) {
+  $selectedNoteID.set(noteID);
+}
+
+export function clearSelectedNote() {
+  $newNote.set(undefined);
 }

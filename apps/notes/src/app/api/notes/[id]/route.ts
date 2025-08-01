@@ -16,7 +16,7 @@ export async function GET(
       });
     }
 
-    return NextResponse.json(note);
+    return NextResponse.json(createResponse(note, null), { status: 200 });
   } catch (error) {
     console.error("Error fetching note:", error);
     return NextResponse.json(createResponse(null, error), { status: 500 });

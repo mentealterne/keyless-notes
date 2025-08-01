@@ -38,7 +38,10 @@ export class NoteRepo {
   async update(id: string, data: Prisma.NoteUpdateInput) {
     return prisma.note.update({
       where: { id },
-      data,
+      data: {
+        text: data.text,
+        heading: data.heading,
+      },
     });
   }
 

@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { FC } from "react";
-import { updateSelectedNote } from "@/store/notes";
+import { setSelectedNoteID } from "@/store/notes";
 import { Note } from "@/types/notes";
 
 const NoteItemReact = dynamic(
@@ -28,7 +28,7 @@ const NoteItemWrapper: FC<NoteItemWrapperProps> = (props) => {
   return (
     <NoteItemReact
       onNoteSelected={(e) =>
-        updateSelectedNote((e as CustomEvent<Note>).detail)
+        setSelectedNoteID((e as CustomEvent<Note>).detail.id!)
       }
       noteID={props.id}
       {...props}

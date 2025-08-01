@@ -3,4 +3,5 @@ export type Note = {
   heading: string;
   text: string;
   lastUpdated: Date;
+  createdAt?: Date;
 };

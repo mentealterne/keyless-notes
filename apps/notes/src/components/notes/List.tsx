@@ -6,14 +6,14 @@ import NoteItemWrapper from "@/components/notes/ItemWrapper";
 import { useTheme } from "@/providers/themeProvider/useTheme";
 import clsx from "clsx";
 import { useStore } from "@nanostores/react";
-import { $selectedNote } from "@/store/notes";
 import { ListVisibility } from "@/providers/themeProvider/theme.context";
+import { $selectedNoteID } from "@/store/notes";
 
 interface Props {
   notes: Note[] | undefined;
 }
 const NotesList: FC<Props> = ({ notes }) => {
-  const selectedNote = useStore($selectedNote);
+  const selectedNoteID = useStore($selectedNoteID);
   const { listVisibility, isMobile } = useTheme();
   return (
     <div className={"flex flex-col gap-6 w-full"}>
@@ -28,20 +28,17 @@ const NotesList: FC<Props> = ({ notes }) => {
       >
         {notes?.length ? (
           notes.map((note, index) => {
-            const isSelected = selectedNote?.id === note.id;
-            const noteToRender = isSelected
-              ? { ...note, ...selectedNote }
-              : note;
+            const isSelected = selectedNoteID === note.id;
 
             return (
               <NoteItemWrapper
-                key={note.id}
+                key={index}
                 id={note.id}
                 isSelected={isSelected}
                 isCollapsed={listVisibility === ListVisibility.COLLAPSED}
-                heading={noteToRender.heading}
-                text={noteToRender.text}
-                lastUpdated={noteToRender.lastUpdated}
+                heading={note.heading}
+                text={note.text}
+                lastUpdated={note.lastUpdated}
               />
             );
           })
