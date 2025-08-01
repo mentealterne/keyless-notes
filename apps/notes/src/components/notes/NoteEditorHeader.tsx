@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Note } from "@/types/notes";
+import { NoteDTO } from "@/types/notes";
 import { useTheme } from "@/providers/themeProvider/useTheme";
 import ToggleListButton from "@/components/common/ToggleListButton";
 import { ListVisibility } from "@/providers/themeProvider/theme.context";
@@ -8,7 +8,7 @@ import { useRemoveNote } from "@/lib/http/mutations/useRemoveNote";
 import NoteRemoveButton from "@/components/notes/actions/NoteRemoveButton";
 
 interface Props {
-  note: Note | undefined;
+  note: NoteDTO | undefined;
 }
 const NoteEditorHeader: FC<Props> = (props) => {
   const {

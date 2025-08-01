@@ -3,21 +3,22 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { debounce } from "@tanstack/react-pacer/debouncer"; // :contentReference[oaicite:0]{index=0}
 import NoteEditorHeader from "@/components/notes/NoteEditorHeader";
 import NoteEditor from "@/components/notes/NoteEditor";
-import { Note } from "@/types/notes";
+import { NoteDTO } from "@/types/notes";
 import NoteEditorFooter from "@/components/notes/NoteEditorFooter";
 import { clearShowingNote, setSelectedNoteID } from "@/store/notes";
 import { useUpsertNote } from "@/lib/http/mutations/useUpsertNote";
-import FullWidthLoader from "@/components/common/FullWidthLoader";
 
 interface Props {
-  note: Note | undefined;
+  note: NoteDTO | undefined;
   isListLoading?: boolean;
   isNoteLoading?: boolean;
 }
 
 const NoteEditorWrapper: FC<Props> = ({ note: propsNote, isNoteLoading }) => {
-  const [editingNote, setEditingNote] = useState<Note | undefined>(propsNote);
-  const onSaveSuccess = (note: Note) => {
+  const [editingNote, setEditingNote] = useState<NoteDTO | undefined>(
+    undefined,
+  );
+  const onSaveSuccess = (note: NoteDTO) => {
     clearShowingNote();
   };
 
@@ -55,10 +56,6 @@ const NoteEditorWrapper: FC<Props> = ({ note: propsNote, isNoteLoading }) => {
     setEditingNote(updated);
     debouncedUpsert(updated);
   };
-
-  if (isNoteLoading) {
-    return <FullWidthLoader />;
-  }
 
   return (
     <div className="flex flex-col mx-auto w-full justify-between h-full">

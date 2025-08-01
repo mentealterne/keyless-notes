@@ -1,9 +1,10 @@
 import { atom } from "nanostores";
-import { Note } from "@/types/notes";
+import { NoteDTO } from "@/types/notes";
 
-export const $showingNote = atom<Note | undefined>();
+export const $showingNote = atom<NoteDTO | undefined>();
 export const $selectedNoteID = atom<string | undefined>();
-export function addShowingNote(note: Note) {
+export const $listPage = atom<number>(1);
+export function addShowingNote(note: NoteDTO) {
   $showingNote.set(note);
   setSelectedNoteID(note.id);
 }
@@ -11,7 +12,12 @@ export function addShowingNote(note: Note) {
 export function setSelectedNoteID(noteID: string | undefined) {
   $selectedNoteID.set(noteID);
 }
+
 export function clearShowingNote() {
   $showingNote.set(undefined);
   $selectedNoteID.set(undefined);
+}
+
+export function increaseListPage() {
+  $listPage.set($listPage.get() + 1);
 }

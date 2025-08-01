@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { format } from "date-fns";
 import NoteSaveButton from "@/components/notes/actions/NoteSaveButton";
-import { Note } from "@/types/notes";
+import { NoteDTO } from "@/types/notes";
 
 interface Props {
-  note: Note | undefined;
+  note: NoteDTO | undefined;
   isPending?: boolean;
 }
 const NoteStatusIndicators: FC<Props> = (props) => {
@@ -12,12 +12,16 @@ const NoteStatusIndicators: FC<Props> = (props) => {
     <div className={"flex flex-row gap-1 w-full justify-between items-center"}>
       <div className="text-sm text-gray-500 flex items-center flex-row gap-2">
         <NoteSaveButton isSaving={props.isPending} />
-        {props.note?.lastUpdated && props.note.id && (
-          <span className={"font-bold text-xs"}>
-            Autosaved on:
-            {format(props.note.lastUpdated, " dd/MM/yyyy HH:mm")}{" "}
-          </span>
-        )}
+        <span className={"font-bold text-xs"}>
+          {props.note?.lastUpdated && props.note.id ? (
+            <>
+              Changes saved on:
+              {format(props.note.lastUpdated, " dd/MM/yyyy HH:mm")}
+            </>
+          ) : (
+            <>Changes not saved </>
+          )}
+        </span>
       </div>
     </div>
   );

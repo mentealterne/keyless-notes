@@ -1,13 +1,13 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import clsx from "clsx";
 import NotesList from "@/components/notes/List";
-import { Note } from "@/types/notes";
+import { NoteDTO } from "@/types/notes";
 import { ListVisibility } from "@/providers/themeProvider/theme.context";
 import { useTheme } from "@/providers/themeProvider/useTheme";
 import FullWidthLoader from "@/components/common/FullWidthLoader";
 
 interface Props {
-  notes: Note[] | undefined;
+  notes: NoteDTO[] | undefined;
   isListLoading?: boolean;
 }
 const NotesListWrapper: FC<Props> = ({ notes, isListLoading }) => {
@@ -17,6 +17,7 @@ const NotesListWrapper: FC<Props> = ({ notes, isListLoading }) => {
     startHideFloatingList,
     cancelHideFloatingList,
   } = useTheme();
+  const scrollElRef = useRef<HTMLDivElement>(null);
 
   const getStylesGivenListVisibilityStatus = () => {
     if (isMobile) {
@@ -50,7 +51,11 @@ const NotesListWrapper: FC<Props> = ({ notes, isListLoading }) => {
       )}
     >
       {isListLoading && <FullWidthLoader />}
-      {!isListLoading && <NotesList notes={notes} />}
+      {!isListLoading && (
+        <>
+          <NotesList notes={notes} />
+        </>
+      )}
     </div>
   );
 };

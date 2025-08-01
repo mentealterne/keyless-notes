@@ -1,19 +1,18 @@
 import { FC } from "react";
 import IconButton from "@/components/common/IconButton";
 import { Trash } from "@phosphor-icons/react";
-import { Note } from "@/types/notes";
+import { NoteDTO } from "@/types/notes";
 import { useRemoveNote } from "@/lib/http/mutations/useRemoveNote";
 import { clearShowingNote } from "@/store/notes";
 
 interface Props {
-  note: Note;
+  note: NoteDTO;
 }
 const NoteRemoveButton: FC<Props> = (props) => {
-  const removeNote = useRemoveNote();
+  const removeNote = useRemoveNote(clearShowingNote);
 
   const removeNoteHandler = (noteId: string) => {
     removeNote.mutate(noteId);
-    clearShowingNote();
   };
   if (!props.note.id) return null;
   return (

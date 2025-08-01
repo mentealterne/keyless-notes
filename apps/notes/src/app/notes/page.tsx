@@ -1,5 +1,6 @@
 "use client";
 import {
+  $listPage,
   $selectedNoteID,
   $showingNote,
   setSelectedNoteID,
@@ -14,7 +15,8 @@ import { useNoteToEdit } from "@/lib/useNoteToEdit.hook";
 export default function Home() {
   const selectedNoteID = useStore($selectedNoteID);
   const newNote = useStore($showingNote);
-  const { data: notesResponse, isLoading } = useNoteList(1);
+  const listPage = useStore($listPage);
+  const { data: notesResponse, isLoading } = useNoteList(listPage);
 
   const notes = useMemo(() => {
     const baseNotes = notesResponse?.notes ?? [];

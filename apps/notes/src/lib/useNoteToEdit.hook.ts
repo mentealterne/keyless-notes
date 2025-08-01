@@ -11,9 +11,21 @@ export const useNoteToEdit = () => {
   const noteQuery = useNote(selectedNoteID);
 
   const note = useMemo(() => {
+    console.log("useNoteToEdit: selectedNoteID:", selectedNoteID);
+    if (noteQuery.isLoading) return undefined;
+    if (noteQuery.isError) {
+      console.error("Error fetching note:", noteQuery.error);
+      return undefined;
+    }
     if (noteQuery.data) return noteQuery.data;
     if (newNote) return newNote;
-  }, [noteQuery.data, noteQuery.isLoading, noteQuery.isError, newNote]);
+  }, [
+    noteQuery.data,
+    noteQuery.isLoading,
+    noteQuery.isError,
+    newNote,
+    selectedNoteID,
+  ]);
 
   return {
     note,

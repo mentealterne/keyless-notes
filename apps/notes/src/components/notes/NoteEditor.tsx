@@ -1,15 +1,18 @@
 import { FC } from "react";
-import { Note } from "@/types/notes";
+import { NoteDTO } from "@/types/notes";
 import FullWidthMessage from "@/components/common/FullWidthMessage";
 import { Cactus } from "@phosphor-icons/react";
+import { useStore } from "@nanostores/react";
+import { $showingNote } from "@/store/notes";
 
 interface Props {
-  note: Note | undefined;
+  note: NoteDTO | undefined;
   onHeadingChange: (heading: string) => void;
   onTextChange: (text: string) => void;
 }
 const NoteEditor: FC<Props> = (props) => {
-  if (!props.note)
+  const showingNote = useStore($showingNote);
+  if (!props.note && !showingNote)
     return (
       <FullWidthMessage
         message={"Please select or add a note to start"}
@@ -27,7 +30,7 @@ const NoteEditor: FC<Props> = (props) => {
         className={
           "w-full text-accent font-bold text-4xl  no-underline focus:outline-none scrollbar-hide"
         }
-        value={props.note.heading || ""}
+        value={props.note?.heading || ""}
       />
 
       <textarea
@@ -37,7 +40,7 @@ const NoteEditor: FC<Props> = (props) => {
         className={
           "w-full h-full leading-relaxed text-xl no-underline focus:outline-none scrollbar-hide"
         }
-        value={props.note.text || ""}
+        value={props.note?.text || ""}
       />
     </div>
   );

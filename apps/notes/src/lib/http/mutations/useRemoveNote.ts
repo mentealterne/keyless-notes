@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useRemoveNote = () => {
+export const useRemoveNote = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -14,8 +14,9 @@ export const useRemoveNote = () => {
       }
     },
     onSuccess: async () => {
+      console.log("Note removed successfully");
       await queryClient.invalidateQueries({ queryKey: ["notes"] });
-      await queryClient.invalidateQueries({ queryKey: ["note"] });
+      onSuccess?.();
     },
   });
 };

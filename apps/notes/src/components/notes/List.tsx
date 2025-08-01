@@ -1,6 +1,6 @@
 "use client";
 import { FC } from "react";
-import { type Note } from "@/types/notes";
+import { type NoteDTO } from "@/types/notes";
 import NotesListHeader from "@/components/notes/Header";
 import NoteItemWrapper from "@/components/notes/ItemWrapper";
 import { useTheme } from "@/providers/themeProvider/useTheme";
@@ -10,7 +10,7 @@ import { ListVisibility } from "@/providers/themeProvider/theme.context";
 import { $selectedNoteID } from "@/store/notes";
 
 interface Props {
-  notes: Note[] | undefined;
+  notes: NoteDTO[] | undefined;
 }
 const NotesList: FC<Props> = ({ notes }) => {
   const selectedNoteID = useStore($selectedNoteID);
@@ -36,8 +36,8 @@ const NotesList: FC<Props> = ({ notes }) => {
                 id={note.id}
                 isSelected={isSelected}
                 isCollapsed={listVisibility === ListVisibility.COLLAPSED}
-                heading={note.heading}
-                text={note.text}
+                heading={note.heading ?? undefined}
+                text={note.text ?? undefined}
                 lastUpdated={note.lastUpdated}
               />
             );
