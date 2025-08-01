@@ -6,7 +6,7 @@ import { $showingNote, addShowingNote } from "@/store/notes";
 
 const NoteAddButton: FC = () => {
   const newNote = useStore($showingNote);
-  const addNote = () => {
+  const addNewNote = () => {
     addShowingNote({
       id: undefined,
       heading: "",
@@ -15,8 +15,8 @@ const NoteAddButton: FC = () => {
     });
   };
   return (
-    <IconButton disabled={!!newNote && !newNote.id} onClick={addNote}>
-      <PenNib size={24} weight="duotone" className="text-white" />
+    <IconButton disabled={!!newNote && !newNote.id} onClick={addNewNote}>
+      <PenNib size={24} weight="duotone" className="text-gray-300" />
     </IconButton>
   );
 };

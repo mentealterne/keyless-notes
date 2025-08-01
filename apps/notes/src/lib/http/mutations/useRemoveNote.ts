@@ -15,6 +15,7 @@ export const useRemoveNote = () => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["notes"] });
+      await queryClient.invalidateQueries({ queryKey: ["note"] });
     },
   });
 };

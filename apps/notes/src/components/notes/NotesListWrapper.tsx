@@ -4,11 +4,13 @@ import NotesList from "@/components/notes/List";
 import { Note } from "@/types/notes";
 import { ListVisibility } from "@/providers/themeProvider/theme.context";
 import { useTheme } from "@/providers/themeProvider/useTheme";
+import FullWidthLoader from "@/components/common/FullWidthLoader";
 
 interface Props {
   notes: Note[] | undefined;
+  isListLoading?: boolean;
 }
-const NotesListWrapper: FC<Props> = ({ notes }) => {
+const NotesListWrapper: FC<Props> = ({ notes, isListLoading }) => {
   const {
     listVisibility,
     isMobile,
@@ -47,7 +49,8 @@ const NotesListWrapper: FC<Props> = ({ notes }) => {
         getStylesGivenListVisibilityStatus(),
       )}
     >
-      <NotesList notes={notes} />
+      {isListLoading && <FullWidthLoader />}
+      {!isListLoading && <NotesList notes={notes} />}
     </div>
   );
 };

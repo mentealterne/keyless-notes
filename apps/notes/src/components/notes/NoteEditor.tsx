@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { Note } from "@/types/notes";
+import FullWidthMessage from "@/components/common/FullWidthMessage";
+import { Cactus } from "@phosphor-icons/react";
 
 interface Props {
   note: Note | undefined;
@@ -9,9 +11,10 @@ interface Props {
 const NoteEditor: FC<Props> = (props) => {
   if (!props.note)
     return (
-      <div className={"flex flex-col    w-full h-full"}>
-        <h2 className={"text-xl"}>Please select or add a new note to start.</h2>
-      </div>
+      <FullWidthMessage
+        message={"Please select or add a note to start"}
+        icon={<Cactus size={152} className="text-accent" weight="duotone" />}
+      />
     );
 
   return (
@@ -22,7 +25,7 @@ const NoteEditor: FC<Props> = (props) => {
         name={"heading"}
         placeholder={"Write a title"}
         className={
-          "w-full text-accent font-bold text-4xl no-underline focus:outline-none scrollbar-hide"
+          "w-full text-accent font-bold text-4xl  no-underline focus:outline-none scrollbar-hide"
         }
         value={props.note.heading || ""}
       />

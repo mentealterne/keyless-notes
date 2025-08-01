@@ -4,6 +4,8 @@ import { useTheme } from "@/providers/themeProvider/useTheme";
 import ToggleListButton from "@/components/common/ToggleListButton";
 import { ListVisibility } from "@/providers/themeProvider/theme.context";
 import NoteAddButton from "@/components/notes/actions/NoteAddButton";
+import { useRemoveNote } from "@/lib/http/mutations/useRemoveNote";
+import NoteRemoveButton from "@/components/notes/actions/NoteRemoveButton";
 
 interface Props {
   note: Note | undefined;
@@ -16,6 +18,8 @@ const NoteEditorHeader: FC<Props> = (props) => {
     startHideFloatingList,
     isMobile,
   } = useTheme();
+
+  const removeNote = useRemoveNote();
 
   return (
     <div
@@ -43,7 +47,10 @@ const NoteEditorHeader: FC<Props> = (props) => {
           </span>
         </div>
       </div>
-      <NoteAddButton />
+      <div className={"flex flex-row items-center gap-4"}>
+        <NoteAddButton />
+        {props.note?.id && <NoteRemoveButton note={props.note} />}
+      </div>
     </div>
   );
 };

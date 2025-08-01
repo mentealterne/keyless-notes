@@ -7,12 +7,15 @@ import { Note } from "@/types/notes";
 import NoteEditorFooter from "@/components/notes/NoteEditorFooter";
 import { clearShowingNote, setSelectedNoteID } from "@/store/notes";
 import { useUpsertNote } from "@/lib/http/mutations/useUpsertNote";
+import FullWidthLoader from "@/components/common/FullWidthLoader";
 
 interface Props {
   note: Note | undefined;
+  isListLoading?: boolean;
+  isNoteLoading?: boolean;
 }
 
-const NoteEditorWrapper: FC<Props> = ({ note: propsNote }) => {
+const NoteEditorWrapper: FC<Props> = ({ note: propsNote, isNoteLoading }) => {
   const [editingNote, setEditingNote] = useState<Note | undefined>(propsNote);
   const onSaveSuccess = (note: Note) => {
     clearShowingNote();
@@ -25,7 +28,7 @@ const NoteEditorWrapper: FC<Props> = ({ note: propsNote }) => {
   } = useUpsertNote(onSaveSuccess);
 
   const debouncedUpsert = useMemo(
-    () => debounce(upsertNote, { wait: 2000 }),
+    () => debounce(upsertNote, { wait: 1000 }),
     [upsertNote],
   );
 
@@ -53,6 +56,10 @@ const NoteEditorWrapper: FC<Props> = ({ note: propsNote }) => {
     debouncedUpsert(updated);
   };
 
+  if (isNoteLoading) {
+    return <FullWidthLoader />;
+  }
+
   return (
     <div className="flex flex-col mx-auto w-full justify-between h-full">
       <NoteEditorHeader note={propsNote} />
@@ -63,7 +70,7 @@ const NoteEditorWrapper: FC<Props> = ({ note: propsNote }) => {
           onTextChange={onTextChange}
         />
       </div>
-      <NoteEditorFooter isPending={isPending} />
+      {propsNote && <NoteEditorFooter isPending={isPending} />}
     </div>
   );
 };

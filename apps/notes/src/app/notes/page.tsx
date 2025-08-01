@@ -21,7 +21,7 @@ export default function Home() {
     return newNote ? [newNote, ...baseNotes] : baseNotes;
   }, [notesResponse?.notes, newNote]);
 
-  const note = useNoteToEdit();
+  const noteData = useNoteToEdit();
 
   const initSelectedNote = useCallback(() => {
     if (notes.length > 0 && !selectedNoteID) {
@@ -35,9 +35,13 @@ export default function Home() {
 
   return (
     <div className="flex h-screen w-full">
-      <NotesListWrapper notes={notes} />
+      <NotesListWrapper notes={notes} isListLoading={isLoading} />
       <div className="flex flex-col  gap-4 flex-grow">
-        <NoteEditorWrapper note={note} />
+        <NoteEditorWrapper
+          note={noteData.note}
+          isListLoading={isLoading}
+          isNoteLoading={noteData.isLoading}
+        />
       </div>
     </div>
   );
