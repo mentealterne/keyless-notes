@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma-client";
-import { Prisma } from "@/db/prisma";
+import { Prisma } from "@prisma/client";
 
 // In a prod scenario I'd also separate repo interface and implementation
 export class NoteRepo {
