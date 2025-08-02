@@ -1,18 +1,27 @@
 import { FC } from "react";
 import { NoteDTO } from "@/types/notes";
+import { useStore } from "@nanostores/react";
+import { $showingNote, setIsUnsavedChanges } from "@/store/notes";
 import FullWidthMessage from "@/components/common/FullWidthMessage";
 import { Cactus } from "@phosphor-icons/react";
-import { useStore } from "@nanostores/react";
-import { $showingNote } from "@/store/notes";
+import FullWidthLoader from "@/components/common/FullWidthLoader";
 
 interface Props {
   note: NoteDTO | undefined;
   onHeadingChange: (heading: string) => void;
   onTextChange: (text: string) => void;
+  isNoteLoading?: boolean;
 }
 const NoteEditor: FC<Props> = (props) => {
   const showingNote = useStore($showingNote);
-  if (!props.note && !showingNote)
+
+  const updateContent =
+    (value: string) => (editContentFunc: (value: string) => void) => {
+      setIsUnsavedChanges(true);
+      editContentFunc(value);
+    };
+
+  if (!props.note && !showingNote && !props.isNoteLoading)
     return (
       <FullWidthMessage
         message={"Please select or add a note to start"}
@@ -20,11 +29,13 @@ const NoteEditor: FC<Props> = (props) => {
       />
     );
 
+  if (props.isNoteLoading) return <FullWidthLoader />;
+
   return (
     <div className={"flex flex-col gap-4 w-full h-full"}>
       <textarea
         autoFocus
-        onChange={(e) => props.onHeadingChange(e.target.value)}
+        onChange={(e) => updateContent(e.target.value)(props.onHeadingChange)}
         name={"heading"}
         placeholder={"Write a title"}
         className={
@@ -34,7 +45,7 @@ const NoteEditor: FC<Props> = (props) => {
       />
 
       <textarea
-        onChange={(e) => props.onTextChange(e.target.value)}
+        onChange={(e) => updateContent(e.target.value)(props.onTextChange)}
         name={"text"}
         placeholder={"Write your note here..."}
         className={

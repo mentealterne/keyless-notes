@@ -5,7 +5,11 @@ import NoteEditorHeader from "@/components/notes/NoteEditorHeader";
 import NoteEditor from "@/components/notes/NoteEditor";
 import { NoteDTO } from "@/types/notes";
 import NoteEditorFooter from "@/components/notes/NoteEditorFooter";
-import { clearShowingNote, setSelectedNoteID } from "@/store/notes";
+import {
+  clearShowingNote,
+  setIsUnsavedChanges,
+  setSelectedNoteID,
+} from "@/store/notes";
 import { useUpsertNote } from "@/lib/http/mutations/useUpsertNote";
 
 interface Props {
@@ -20,6 +24,7 @@ const NoteEditorWrapper: FC<Props> = ({ note: propsNote, isNoteLoading }) => {
   );
   const onSaveSuccess = (note: NoteDTO) => {
     clearShowingNote();
+    setIsUnsavedChanges(false);
   };
 
   const {
@@ -62,12 +67,13 @@ const NoteEditorWrapper: FC<Props> = ({ note: propsNote, isNoteLoading }) => {
       <NoteEditorHeader note={propsNote} />
       <div className="xs:w-full md:w-1/2 mx-auto md:mt-20 p-8 h-[calc(100vh-60px-48px)] overflow-auto">
         <NoteEditor
+          isNoteLoading={isNoteLoading}
           note={editingNote}
           onHeadingChange={onHeadingChange}
           onTextChange={onTextChange}
         />
       </div>
-      {propsNote && <NoteEditorFooter isPending={isPending} />}
+      {propsNote && <NoteEditorFooter />}
     </div>
   );
 };

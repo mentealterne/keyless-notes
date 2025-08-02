@@ -1,6 +1,6 @@
 import { FC } from "react";
 import IconButton from "@/components/common/IconButton";
-import { FloppyDisk, SpinnerBall } from "@phosphor-icons/react";
+import { ArrowsClockwise, FloppyDisk } from "@phosphor-icons/react";
 
 interface Props {
   isSaving?: boolean;
@@ -16,10 +16,10 @@ const NoteSaveButton: FC<Props> = (props) => {
         />
       )}
       {props.isSaving && (
-        <SpinnerBall
+        <ArrowsClockwise
           size={24}
           weight="duotone"
-          className="text-green-600 animate-spin"
+          className="text-accent animate-spin"
         />
       )}
     </IconButton>
