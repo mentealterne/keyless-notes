@@ -15,6 +15,7 @@ interface Props {
 const NotesList: FC<Props> = ({ notes }) => {
   const selectedNoteID = useStore($selectedNoteID);
   const { listVisibility, isMobile } = useTheme();
+
   return (
     <div className={"flex flex-col gap-6 w-full"}>
       <NotesListHeader />
@@ -27,21 +28,23 @@ const NotesList: FC<Props> = ({ notes }) => {
         )}
       >
         {notes?.length ? (
-          notes.map((note, index) => {
-            const isSelected = selectedNoteID === note.id;
+          <>
+            {notes.map((note, index) => {
+              const isSelected = selectedNoteID === note.id;
 
-            return (
-              <NoteItemWrapper
-                key={index}
-                id={note.id}
-                isSelected={isSelected}
-                isCollapsed={listVisibility === ListVisibility.COLLAPSED}
-                heading={note.heading ?? undefined}
-                text={note.text ?? undefined}
-                lastUpdated={note.lastUpdated}
-              />
-            );
-          })
+              return (
+                <NoteItemWrapper
+                  key={index}
+                  id={note.id}
+                  isSelected={isSelected}
+                  isCollapsed={listVisibility === ListVisibility.COLLAPSED}
+                  heading={note.heading ?? undefined}
+                  text={note.text ?? undefined}
+                  lastUpdated={note.lastUpdated}
+                />
+              );
+            })}
+          </>
         ) : (
           <div className="text-gray-500 text-left">
             No notes available. Please create a new note.

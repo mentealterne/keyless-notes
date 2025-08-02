@@ -31,7 +31,7 @@ const NoteItemWrapper: FC<NoteItemWrapperProps> = (props) => {
   const { isMobile, updateListVisibility } = useTheme();
   return (
     <motion.div
-      layout // smooth layout transitions
+      layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -20 }}

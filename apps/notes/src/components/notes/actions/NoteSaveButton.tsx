@@ -12,15 +12,11 @@ const NoteSaveButton: FC<Props> = (props) => {
         <FloppyDisk
           size={24}
           weight="duotone"
-          className="text-accent hover:text-gray-700 transition-colors"
+          className="text-emerald-700 hover:text-gray-700 transition-colors"
         />
       )}
       {props.isSaving && (
-        <ArrowsClockwise
-          size={24}
-          weight="duotone"
-          className="text-accent animate-spin"
-        />
+        <ArrowsClockwise size={24} className="text-amber-500 animate-spin" />
       )}
     </IconButton>
   );

@@ -14,7 +14,6 @@ export const useRemoveNote = (onSuccess?: () => void) => {
       }
     },
     onSuccess: async () => {
-      console.log("Note removed successfully");
       await queryClient.invalidateQueries({ queryKey: ["notes"] });
       onSuccess?.();
     },

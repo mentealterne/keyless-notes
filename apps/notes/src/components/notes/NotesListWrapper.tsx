@@ -1,23 +1,51 @@
-import { FC, useRef } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import clsx from "clsx";
 import NotesList from "@/components/notes/List";
-import { NoteDTO } from "@/types/notes";
 import { ListVisibility } from "@/providers/themeProvider/theme.context";
 import { useTheme } from "@/providers/themeProvider/useTheme";
-import FullWidthLoader from "@/components/common/FullWidthLoader";
+import { useInfiniteNotes } from "@/lib/http/queries/useInfiniteNotes.query";
+import { useStore } from "@nanostores/react";
+import {
+  $selectedNoteID,
+  $showingNote,
+  setSelectedNoteID,
+} from "@/store/notes";
+import IconButton from "@/components/common/IconButton";
+import { DotsThree } from "@phosphor-icons/react";
 
-interface Props {
-  notes: NoteDTO[] | undefined;
-  isListLoading?: boolean;
-}
-const NotesListWrapper: FC<Props> = ({ notes, isListLoading }) => {
+const NotesListWrapper: FC = () => {
   const {
     listVisibility,
     isMobile,
     startHideFloatingList,
     cancelHideFloatingList,
   } = useTheme();
-  const scrollElRef = useRef<HTMLDivElement>(null);
+
+  const selectedNoteID = useStore($selectedNoteID);
+
+  const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useInfiniteNotes();
+  const newNote = useStore($showingNote);
+
+  const notesFromPages = useMemo(
+    () => data?.pages.flatMap((page) => page.notes) ?? [],
+    [data],
+  );
+
+  const notes = useMemo(
+    () => (newNote ? [newNote, ...notesFromPages] : notesFromPages),
+    [notesFromPages, newNote],
+  );
+
+  const initSelectedNote = useCallback(() => {
+    if (notes.length > 0 && !selectedNoteID) {
+      setSelectedNoteID(notes[0]!.id!);
+    }
+  }, [notes, selectedNoteID]);
+
+  useEffect(() => {
+    initSelectedNote();
+  }, [initSelectedNote]);
 
   const getStylesGivenListVisibilityStatus = () => {
     if (isMobile) {
@@ -50,12 +78,14 @@ const NotesListWrapper: FC<Props> = ({ notes, isListLoading }) => {
         getStylesGivenListVisibilityStatus(),
       )}
     >
-      {isListLoading && <FullWidthLoader />}
-      {!isListLoading && (
-        <>
-          <NotesList notes={notes} />
-        </>
-      )}
+      <div className={"flex flex-col gap-4 h-full justify-between"}>
+        <NotesList notes={notes} />
+        {hasNextPage && (
+          <IconButton onClick={fetchNextPage} label={"Load More"}>
+            <DotsThree size={24} />
+          </IconButton>
+        )}
+      </div>
     </div>
   );
 };

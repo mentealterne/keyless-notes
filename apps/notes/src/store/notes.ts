@@ -3,7 +3,6 @@ import { NoteDTO } from "@/types/notes";
 
 export const $showingNote = atom<NoteDTO | undefined>();
 export const $selectedNoteID = atom<string | undefined>();
-export const $listPage = atom<number>(1);
 export const $isUnsavedChanges = atom<boolean>(false);
 export function addShowingNote(note: NoteDTO) {
   $showingNote.set(note);
@@ -17,10 +16,6 @@ export function setSelectedNoteID(noteID: string | undefined) {
 export function clearShowingNote() {
   $showingNote.set(undefined);
   $selectedNoteID.set(undefined);
-}
-
-export function increaseListPage() {
-  $listPage.set($listPage.get() + 1);
 }
 
 export function setIsUnsavedChanges(isUnsaved: boolean) {
