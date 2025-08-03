@@ -1,12 +1,14 @@
 import { FC } from "react";
 import NoteStatusIndicators from "@/components/notes/actions/NoteStatusIndicators";
-import { useNoteToEdit } from "@/lib/useNoteToEdit.hook";
+import { NoteDTO } from "@/types/notes";
 
-const NoteEditorFooter: FC = () => {
-  const note = useNoteToEdit();
+interface Props {
+  note: NoteDTO | undefined;
+}
+const NoteEditorFooter: FC<Props> = ({ note }) => {
   return (
     <div className="flex justify-end items-center p-4 max-h-[30px] overflow-hidden bg-gray-100 border-t border-accent">
-      <NoteStatusIndicators note={note.note} />
+      <NoteStatusIndicators note={note} />
     </div>
   );
 };

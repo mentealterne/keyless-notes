@@ -1,6 +1,7 @@
 {
   "extends": "@keyless/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
     },

@@ -73,7 +73,7 @@ const NoteEditorWrapper: FC<Props> = ({ note: propsNote, isNoteLoading }) => {
           onTextChange={onTextChange}
         />
       </div>
-      {propsNote && <NoteEditorFooter />}
+      {propsNote && <NoteEditorFooter note={propsNote} />}
     </div>
   );
 };

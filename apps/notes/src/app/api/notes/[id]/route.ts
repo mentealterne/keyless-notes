@@ -4,9 +4,10 @@ import { createResponse } from "@/lib/http/response";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
+    const params = await context.params;
     const repo = new NoteRepo();
     const note = await repo.getByID(params.id);
 
@@ -25,9 +26,11 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
+    const params = await context.params;
+
     const data = await req.json();
     const repo = new NoteRepo();
 
@@ -41,9 +44,10 @@ export async function PUT(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
+    const params = await context.params;
     const repo = new NoteRepo();
     await repo.remove(params.id);
     return new Response(null, { status: 204 });

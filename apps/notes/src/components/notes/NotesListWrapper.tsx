@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useEffect, useMemo, useRef } from "react";
 import clsx from "clsx";
 import NotesList from "@/components/notes/List";
 import { ListVisibility } from "@/providers/themeProvider/theme.context";
@@ -10,7 +10,7 @@ import {
   $showingNote,
   setSelectedNoteID,
 } from "@/store/notes";
-import IconButton from "@/components/common/IconButton";
+import { useIntersectElement } from "@/lib/useIntersectElement.hook";
 import { DotsThree } from "@phosphor-icons/react";
 
 const NotesListWrapper: FC = () => {
@@ -22,11 +22,10 @@ const NotesListWrapper: FC = () => {
   } = useTheme();
 
   const selectedNoteID = useStore($selectedNoteID);
-
   const { data, isFetchingNextPage, fetchNextPage, hasNextPage } =
     useInfiniteNotes();
-  const newNote = useStore($showingNote);
 
+  const newNote = useStore($showingNote);
   const notesFromPages = useMemo(
     () => data?.pages.flatMap((page) => page.notes) ?? [],
     [data],
@@ -46,6 +45,11 @@ const NotesListWrapper: FC = () => {
   useEffect(() => {
     initSelectedNote();
   }, [initSelectedNote]);
+
+  const scrollElRef = useRef<HTMLDivElement | null>(null);
+  useIntersectElement(scrollElRef, () => {
+    fetchNextPage();
+  });
 
   const getStylesGivenListVisibilityStatus = () => {
     if (isMobile) {
@@ -81,9 +85,9 @@ const NotesListWrapper: FC = () => {
       <div className={"flex flex-col gap-4 h-full justify-between"}>
         <NotesList notes={notes} />
         {hasNextPage && (
-          <IconButton onClick={fetchNextPage} label={"Load More"}>
-            <DotsThree size={24} />
-          </IconButton>
+          <div ref={scrollElRef} className="flex justify-center h-4">
+            <DotsThree size={24} className="animate-spin text-gray-500" />
+          </div>
         )}
       </div>
     </div>

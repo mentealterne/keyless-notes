@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import { useStore } from "@nanostores/react";
 import { $selectedNoteID, $showingNote } from "@/store/notes";
 import { useNote } from "@/lib/http/queries/useNote.query";
 
-export const useNoteToEdit = () => {
+export const useNoteToEdit: FC<Props> = () => {
   const selectedNoteID = useStore($selectedNoteID);
   const newNote = useStore($showingNote);
   const noteQuery = useNote(selectedNoteID);
@@ -13,13 +13,7 @@ export const useNoteToEdit = () => {
   const note = useMemo(() => {
     if (noteQuery.data) return noteQuery.data;
     if (newNote) return newNote;
-  }, [
-    noteQuery.data,
-    noteQuery.isLoading,
-    noteQuery.isError,
-    newNote,
-    selectedNoteID,
-  ]);
+  }, [noteQuery.data, newNote]);
 
   return {
     note,

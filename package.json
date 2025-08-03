@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "migrate:production": "turbo run migrate:production",
     "notes:dev-tools": "concurrently -n NOTES,WEBCOMPONENTS -c blue,magenta \"pnpm --filter notes dev\" \"pnpm --filter @keyless/web-components dev\"",
 
     "lint": "turbo run lint",
@@ -16,7 +17,7 @@
     "turbo": "^2.5.5",
     "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@8.7.4",
   "engines": {
     "node": ">=18"
   }

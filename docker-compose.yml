@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  notes:
+    build:
+      dockerfile: ./apps/notes/Dockerfile
+      args:
+        DATABASE_URL: file:/app/apps/notes/prisma/dev.db
+    image: notes-app:latest
+    environment:
+      - DATABASE_URL=file:/app/apps/notes/prisma/dev.db
+    ports:
+      - "3000:3000"
+    volumes:
+      - notes_db:/app/apps/notes/prisma
+volumes:
+  notes_db:
+
