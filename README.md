@@ -1,135 +1,108 @@
-# Turborepo starter
+# Keyless Notes
 
-This Turborepo starter is maintained by the Turborepo core team.
+A simple note-taking application built as a challenge for Keyless.  
+This is a Turborepo monorepo (v2) managed with pnpm:
 
-## Using this example
+- **apps/notes** — Next.js 15 application
+- **packages/web-components** — shared Web Components (e.g. `<note-item>`)
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) v18+
+- [pnpm](https://pnpm.io/) installed globally
+
+---
+
+## Installation
+
+From the repository root, run:
+
+```bash
+pnpm install
 ```
 
-## What's inside?
+This will install dependencies for all workspaces (`apps/notes`, `packages/web-components`, etc.).
 
-This Turborepo includes the following packages/apps:
+---
 
-### Apps and Packages
+## Development
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@keyless/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@keyless/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@keyless/typescript-config`: `tsconfig.json`s used throughout the monorepo
+You can run both the Next.js app and the Web Components package in parallel using the built-in script:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+### Prisma migrations and client
+Be sure to run the Prisma migrations and generate the client before starting the development server:
+```bash
+pnpm --filter=notes prisma:generate
+pnpm --filter=notes prisma:migrate
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
+Then, start the development tools:
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```bash
+pnpm notes:dev:tools
 ```
 
-### Develop
+This uses `concurrently` to:
 
-To develop all apps and packages, run the following command:
+1. Start the Next.js dev server in `apps/notes`
+2. Start the Web Components build/watch in `packages/web-components`
 
-```
-cd my-turborepo
+Open your browser at [http://localhost:3000](http://localhost:3000) to see Keyless Notes in action.
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+---
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+## Docker Compose
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+A `docker-compose.yml` file is provided in `apps/notes` to spin up the production build (using SQLite):
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+```bash
+# from the monorepo root
+docker compose up --build -d
 ```
 
-### Remote Caching
+- **Builds** the Docker image defined by `apps/notes/Dockerfile`
+- **Mounts** `./prisma/dev.db` for persistent storage
+- **Exposes** port `3000`
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+To tear down the container:
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+docker compose down
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+---
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+## Project Structure
 
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+/
+├─ apps/
+│  └─ notes/               # Next.js 15 app
+│     ├─ pages/
+│     ├─ prisma/           # schema & (dev) SQLite DB
+│     └─ docker-compose.yml
+├─ packages/
+│  ├─ web-components/ # shared Lit-based Web Components
+   ├─ eslint-config/ # shared ESLint config
+   └─ typescript-config/ # shared TypeScript config
+   
+├─ turbo.json              # Turborepo config
+├─ pnpm-workspace.yaml
+└─ package.json            # root scripts & workspace config
 ```
 
-## Useful Links
+---
 
-Learn more about the power of Turborepo:
+## Scripts
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+| Command                                                    | Description                                    |
+| ---------------------------------------------------------- | ---------------------------------------------- |
+| `pnpm install`                                             | Install all workspaces                        |
+| `pnpm notes:dev:tools`                                     | Run Next.js and Web Components in dev mode    |
+| `cd apps/notes && docker compose up --build -d`            | Build & run production container              |
+
+---
+
+Enjoy taking notes with Keyless Notes!
