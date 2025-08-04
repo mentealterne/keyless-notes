@@ -38,6 +38,11 @@ pnpm --filter=notes prisma:generate
 pnpm --filter=notes prisma:migrate
 ```
 
+### build web components
+```bash
+pnpm build --filter=@keyless/web-components
+```
+
 Then, start the development tools:
 ```
 ```bash

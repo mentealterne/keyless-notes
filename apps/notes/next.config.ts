@@ -1,9 +1,19 @@
-import type { NextConfig } from "next";
-import withLitSSR from "@lit-labs/nextjs";
+// next.config.ts
+import type { NextConfig } from 'next'
+import withLitSSR from '@lit-labs/nextjs'
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  /* config options here */
+
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/notes",
+        permanent: true,
+      },
+    ];
+  },
 };
 
-module.exports = withLitSSR()(nextConfig);
+export default withLitSSR()(nextConfig);
