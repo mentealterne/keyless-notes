@@ -1,21 +1,16 @@
 "use client";
-import { FC, useEffect, useMemo, useState } from "react";
-import { debounce } from "@tanstack/react-pacer/debouncer"; // :contentReference[oaicite:0]{index=0}
-import NoteEditorHeader from "@/components/notes/NoteEditorHeader";
-import NoteEditor from "@/components/notes/NoteEditor";
-import { NoteDTO } from "@/types/notes";
-import NoteEditorFooter from "@/components/notes/NoteEditorFooter";
-import {
-  clearShowingNote,
-  setIsUnsavedChanges,
-  setSelectedNoteID,
-} from "@/store/notes";
-import { useUpsertNote } from "@/lib/http/mutations/useUpsertNote";
+import { FC, useEffect, useMemo, useState } from 'react'
+import { debounce } from '@tanstack/react-pacer/debouncer' // :contentReference[oaicite:0]{index=0}
+import NoteEditorHeader from '@/components/notes/NoteEditorHeader'
+import NoteEditor from '@/components/notes/NoteEditor'
+import { NoteDTO } from '@/types/notes'
+import NoteEditorFooter from '@/components/notes/NoteEditorFooter'
+import { clearShowingNote, setIsUnsavedChanges, setSelectedNoteID } from '@/store/notes'
+import { useUpsertNote } from '@/lib/http/mutations/useUpsertNote'
 
 interface Props {
   note: NoteDTO | undefined;
-  isListLoading?: boolean;
-  isNoteLoading?: boolean;
+  isNoteLoading: boolean;
 }
 
 const NoteEditorWrapper: FC<Props> = ({ note: propsNote, isNoteLoading }) => {
